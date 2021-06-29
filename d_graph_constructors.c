@@ -37,10 +37,12 @@ void d_graph_print(const d_graph_t graph){
 	}else {
 		printf("GRAPH directed\n");
 	}
-	printf("Vertices: %d\nElement: ",d_graph_vcount(graph));
-	jrb_traverse(cur, graph->edges)
+	printf("Vertices:%d\nElement: ",d_graph_vcount(graph));
+
+	jrb_traverse(cur, graph->vertices_to_id)
 	{
-		printf("%d ",jval_i(cur->key));
+		printf("%d(%s) ",jval_i(cur->val),jval_s(cur->key));
 	}
 	printf("\n");
+	d_graph_print_edges(graph);
 }
