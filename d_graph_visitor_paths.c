@@ -115,14 +115,16 @@ int d_graph_BFS_path(const d_graph_t graph,
 	}
 
 	//nếu trong danh sách duyệt không có đỉnh cần tìm -> không tìm thấy đường đi
- 	if(!check_has_path(result_v,count,to)){
- 		printf("Cannot get path by BFS!\n");
- 		*v_path = NULL;
-		*path_size = 0;
-		jrb_free_tree(visited);
-		free_dllist(queue_src);
-		return 0;
- 	}
+	if(to != D_GRAPH_V_DEFAULT){
+		if(!check_has_path(result_v,count,to)){
+	 		printf("Cannot get path from %d to %d\n", from, to);
+	 		*v_path = NULL;
+			*path_size = 0;
+			jrb_free_tree(visited);
+			free_dllist(queue_src);
+			return 0;
+	 	}
+	}
 
 	*v_path = result_v;
 	*path_size = count;
@@ -137,11 +139,11 @@ int d_graph_BFS_path(const d_graph_t graph,
  */
 
 int d_graph_DFS_path(const d_graph_t graph, 
-					  int from,
-					  int to,
-				  	  int **v_path,
-				  	  int *path_size,
-               		  d_graph_neimode_t mode){
+										  int from,
+										  int to,
+								  	  int **v_path,
+								  	  int *path_size,
+					            d_graph_neimode_t mode){
 	JRB find_f = jrb_find_int(graph->edges,from);
 	if(to != D_GRAPH_V_DEFAULT)
 	{
@@ -219,16 +221,18 @@ int d_graph_DFS_path(const d_graph_t graph,
  	}
 
  	//nếu trong danh sách duyệt không có đỉnh cần tìm -> không tìm thấy đường đi
- 	if(!check_has_path(result_v,count,to)){
- 		printf("cannot get path by DFS!\n");
- 		*v_path = NULL;
-		*path_size = 0;
-		jrb_free_tree(visited);
-		free_dllist(stack_src);
-		return 0;
+ 	if(to != D_GRAPH_V_DEFAULT){
+ 		if(!check_has_path(result_v,count,to)){
+	 		printf("cannot get path by DFS!\n");
+	 		*v_path = NULL;
+			*path_size = 0;
+			jrb_free_tree(visited);
+			free_dllist(stack_src);
+			return 0;
+ 		}
  	}
 
-  	*v_path = result_v;
+  *v_path = result_v;
 	*path_size = count;
 	jrb_free_tree(visited);
 	free_dllist(stack_src);
@@ -333,7 +337,7 @@ int d_graph_get_shortest_path_dijkstra(const d_graph_t graph,
 		printf("Error: Vertices cannot founded!\n");
 		return 0;
 	}
-	int index_to_vid[d_graph_ecount(graph)];
+	int index_to_vid[d_graph_vcount(graph)];
 	int size = 0;
 	JRB cur;
 	//tao bang tra cuu id dinh do thi bang index tang tu 0 -> solg dinh

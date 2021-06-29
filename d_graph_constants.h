@@ -27,9 +27,11 @@ typedef enum {
   D_GRAPH_USE_WEIGHT = 1
 } d_graph_w_mode_t;
 
-#define D_GRAPH_WEIGHT_DEFAULT 1.000
+#define D_GRAPH_WEIGHT_DEFAULT 1
 #define D_GRAPH_V_DEFAULT -1
 #define D_GRAPH_INFINITIVE_VALUE 100000000
+
+#define d_graph_is_directed(graph) graph->directed
 
 #define d_graph_vcount(graph)  graph->vertices_num
 #define d_graph_ecount(graph)  d_graph_get_ecount(graph)
